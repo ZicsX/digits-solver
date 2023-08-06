@@ -1,9 +1,8 @@
 # digits/main.py
 
 import questionary
-from guess.strategy import Strategy
-from guess.operations import operations
-from primes.primes import get_prime_factors, get_components
+from solver.strategy import Strategy
+from solver.operations import operations
 
 def main():
     try:
@@ -19,16 +18,11 @@ def main():
             default=str(Strategy.SHORTEST)
         ).ask()
 
-        prime_factors = get_prime_factors(target)
-        factors = get_components(target)
-
         print(f"\t-> options given: {numbers}")
-        print(f"\t-> prime factors {prime_factors}")
-        print(f"\t-> components {factors}")
 
-        guess = operations(target, numbers, Strategy[str(strategy.upper())])
-        print(f"\t-> strategy {strategy}")
-        print(f"\t-> guess {guess}")
+        solve = operations(target, numbers, Strategy[str(strategy.upper())])
+        print(f"\t-> Strategy {strategy}")
+        print(f"\t-> Solution {solve}")
     except ValueError:
         print("Invalid input. Please enter only integer values.")
 

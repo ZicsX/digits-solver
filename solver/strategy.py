@@ -1,4 +1,4 @@
-# digits/guess/strategy.py
+# digits/solver/strategy.py
 
 from enum import Enum
 

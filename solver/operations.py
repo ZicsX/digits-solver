@@ -1,7 +1,7 @@
-# digits/guess/operations.py
+# digits/solver/operations.py
 
 from itertools import combinations
-from guess.strategy import Strategy
+from solver.strategy import Strategy
 
 def brute_force_solutions(target, numbers, path, memo):
     numbers = sorted(numbers, reverse=True)
