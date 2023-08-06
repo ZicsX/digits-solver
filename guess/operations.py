@@ -3,7 +3,7 @@
 from itertools import combinations
 from guess.strategy import Strategy
 
-def brute_force_solutions(target, numbers, path):
+def brute_force_solutions(target, numbers, path, memo):
     numbers = sorted(numbers, reverse=True)
     combos = nc2(numbers)
     valid_paths = []
@@ -24,7 +24,13 @@ def brute_force_solutions(target, numbers, path):
             if op['valid']:
                 rest_clone = rest[:]
                 rest_clone.append(op['result'])
-                valid_paths.extend(brute_force_solutions(target, rest_clone, op['path']))
+                key = tuple(sorted(rest_clone))
+                if key in memo:
+                    valid_paths.extend(memo[key])
+                else:
+                    result = brute_force_solutions(target, rest_clone, op['path'], memo)
+                    memo[key] = result
+                    valid_paths.extend(result)
 
     return valid_paths
 
@@ -37,7 +43,8 @@ def nc2(numbers):
     return res
 
 def operations(target, numbers, strategy):
-    solutions = brute_force_solutions(target, numbers, [])
+    memo = {}
+    solutions = brute_force_solutions(target, numbers, [], memo)
     if strategy == Strategy.SHORTEST:
         return sorted(solutions, key=len)[0]
     elif strategy == Strategy.LONGEST:
