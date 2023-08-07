@@ -29,7 +29,6 @@ def get_puzzle(ps, max_attempts=1000):
 
         random_nums = np.random.choice(nums, len(nums), replace=False)
 
-        expr = str(random_nums[0])
         val = random_nums[0]
 
         for num in random_nums[1:]:
@@ -40,22 +39,17 @@ def get_puzzle(ps, max_attempts=1000):
 
             val = ops[op](val, num)
 
-            if op in ['+', '-']:
-                expr = '({} {} {})'.format(expr, op, num)
-            else:
-                expr = '{} {} {}'.format(expr, op, num)
 
         if target_range[0] <= val <= target_range[1]:
-            return val, expr, np.sort(numbers)
+            return val, np.sort(numbers)
 
-        return None, None, None
+        return None, None
     
     for _ in range(max_attempts):
-        target, expr, nums = generate_target(ps)
+        target, nums = generate_target(ps)
         if target is not None:
             print('Numbers:', nums)
             print('Target:', target)
-            print('Expression:', expr)
             print('Hint:',operations(target, nums,Strategy.SHORTEST))
             break
     else:
